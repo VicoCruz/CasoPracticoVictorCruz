@@ -1,0 +1,328 @@
+{
+	"info": {
+		"_postman_id": "ce97b77c-6ecf-4e82-8d83-bea5ebfefe76",
+		"name": "PruebasQA_Caso_Practico",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Ejercicio 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// CDP01 : Validar que se ejecute correctamente. Resultado esperado: Ejecución correcta\r",
+							"pm.test(\"CDP01: Validar que se ejecute correctamente\", () => {\r",
+							"    pm.response.to.be.ok;\r",
+							"});\r",
+							"// CDP02 : Probar el estado del API. Resultado esperado: Status 200 OK\r",
+							"pm.test(\"CDP01: API Status 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// CDP03 : Validar que el response tenga body . Resultado esperado: Response tiene body\r",
+							"pm.test(\"CDP02: Validar Response\", () => {\r",
+							"    pm.response.to.be.withBody;\r",
+							"});\r",
+							"// CDP04 : Validar el formato del response. Resultado esperado: Formato JSON\r",
+							"pm.test(\"CDP03: Response JSON\", () => {\r",
+							"    pm.response.json();\r",
+							"});\r",
+							"// CDP05 : Validar tiempo de respuesta del API. Resultado esperado: Menor que 1000 milisegundos\r",
+							"pm.test(\"CDP04: Response time 200ms\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"// CDP06 : Validar que cuenten con los Headers necesarios. Resultado esperado: Existen Header Country y City\r",
+							"pm.test(\"CDP06 : Validar que cuenten con los Headers necesarios\", () => {\r",
+							"    pm.expect(pm.request.headers.get(\"Country\")).to.be.not.undefined;\r",
+							"    pm.expect(pm.request.headers.get(\"City\")).to.be.not.undefined;\r",
+							"});\r",
+							"// CDP07 : Validar Header Country. Resultado esperado: Chile o Argentina\r",
+							"pm.test(\"CDP07 : Validar Header Country\", () => {\r",
+							"    pm.expect(pm.request.headers.get(\"Country\"),\"País incorrecto\").to.be.oneOf([\"Chile\",\"Argentina\"]);\r",
+							"});\r",
+							"// CDP08 : Validar Header City. Resultado esperado: Dependiendo el valor de Country, acepta los valores correspondientes\r",
+							"pm.test(\"CDP08 : Validar Header City\", () => {\r",
+							"    if(pm.request.headers.get(\"Country\") == \"Chile\"){\r",
+							"        pm.expect(pm.request.headers.get(\"City\")).to.be.oneOf([\"Santiago\",\"Arica\",\"Chiloe\"]);\r",
+							"    } else if (pm.request.headers.get(\"Country\") == \"Argentina\"){\r",
+							"        pm.expect(pm.request.headers.get(\"City\")).to.be.oneOf([\"BuenosAires\",\"SanJuan\"]);\r",
+							"    } else {\r",
+							"        pm.expect.fail(\"País y Ciudad incorrectos\");\r",
+							"    }\r",
+							"});\r",
+							"// CDP09 : Validar Parámetro Fecha. Resultado esperado: Formato de la fecha DD-MM-AAAA\r",
+							"pm.test(\"CDP09 : Validar Parámetro Fecha\", () => {\r",
+							"    var regEx = /^\\d{2}-\\d{2}-\\d{4}$/;\r",
+							"    let fecha = pm.request.url.query.get(\"fecha\").toString();\r",
+							"    pm.expect(fecha.match(regEx) != null, \"Formato de fecha incorrectos\").to.be.true;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Country",
+						"value": "Chile",
+						"type": "text"
+					},
+					{
+						"key": "City",
+						"value": "Santiago",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://postman-echo.com/get?fecha=09-12-2021",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"get"
+					],
+					"query": [
+						{
+							"key": "fecha",
+							"value": "09-12-2021"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ejercicio 2 - Posts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// CDP01 : Probar el estado del API. Resultado esperado: Status 201 o 202\r",
+							"pm.test(\"CDP01: API Status 201 o 202\", () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+							"});\r",
+							"// CDP02 : Validar que el response tenga body . Resultado esperado: Response tiene body\r",
+							"pm.test(\"CDP02: Validar Response\", () => {\r",
+							"    pm.response.to.be.withBody;\r",
+							"});\r",
+							"// CDP03 : Validar el formato del response. Resultado esperado: Formato JSON\r",
+							"pm.test(\"CDP03: Response JSON\", () => {\r",
+							"    pm.response.json();\r",
+							"});\r",
+							"// CDP04 : Validar tiempo de respuesta del API. Resultado esperado: Menor que 1000 milisegundos\r",
+							"pm.test(\"CDP04: Response time 500ms\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"// CDP05 : Validar Headers necesarios. Resultado esperado: Tiene Header Content type\r",
+							"pm.test(\"CDP05: Validar Content-Type\", () => {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"// CDP06 : Validar que se envio un body. Resultado esperado: Se envio un body\r",
+							"pm.test(\"CDP06: Validar Body Request\", () => {\r",
+							"    pm.expect(pm.request.body.isEmpty()).to.not.be.true;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=UTF-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"foo\",\r\n    \"body\": \"bar\",\r\n    \"userId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/posts",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ejercicio 2 - Comments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// CDP01 : Probar el estado del API. Resultado esperado: Status 200 OK\r",
+							"pm.test(\"CDP01: API Status 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// CDP02 : Validar que el response tenga body . Resultado esperado: Response tiene body\r",
+							"pm.test(\"CDP02: Validar Response\", () => {\r",
+							"    pm.response.to.be.withBody;\r",
+							"});\r",
+							"// CDP03 : Validar el formato del response. Resultado esperado: Formato JSON\r",
+							"pm.test(\"CDP03: Response JSON\", () => {\r",
+							"    pm.response.json();\r",
+							"});\r",
+							"// CDP04 : Validar tiempo de respuesta del API. Resultado esperado: Menor que 200 milisegundos\r",
+							"pm.test(\"CDP04: Response time 200ms\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"// CDP05 : Validar JSON Schema. Resultado esperado: Contiene las propiedades del comment con sus respectivos tipos de datos\r",
+							"// Declaramos una variable con el esquema\r",
+							"let schema = {\r",
+							"    \"type\": \"array\",\r",
+							"    \"items\": {\r",
+							"        \"type\": \"object\",\r",
+							"        \"properties\": {\r",
+							"            \"postId\": {\"type\": \"number\"},\r",
+							"            \"id\": {\"type\": \"number\"},\r",
+							"            \"name\": {\"type\": \"string\"},\r",
+							"            \"email\": {\"type\": \"string\"},\r",
+							"            \"body\": {\"type\": \"string\"}\r",
+							"        },\r",
+							"        \"required\": [\"postId\",\"id\",\"name\",\"email\",\"body\"],\r",
+							"        \"additionalProperties\": false\r",
+							"    }\r",
+							"}\r",
+							"//Validamos JSON Schema\r",
+							"pm.test(\"CDP05: Validar JSON Schema\", () => {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"});\r",
+							"// CDP06 : Validar cantidad de resultados. Resultado esperado: 500 comments\r",
+							"pm.test(\"CDP06: Validar cantidad de comments\", () => {\r",
+							"    let response = pm.response.json();\r",
+							"    pm.expect(Object.keys(response).length).to.eql(500);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/comments",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ejercicio 2 - Albums",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// CDP01 : Probar el estado del API. Resultado esperado: Status 200 OK\r",
+							"pm.test(\"CDP01: API Status 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// CDP02 : Validar que el response tenga body . Resultado esperado: Response tiene body\r",
+							"pm.test(\"CDP02: Validar Response\", () => {\r",
+							"    pm.response.to.be.withBody;\r",
+							"});\r",
+							"// CDP03 : Validar el formato del response. Resultado esperado: Formato JSON\r",
+							"pm.test(\"CDP03: Response JSON\", () => {\r",
+							"    pm.response.json();\r",
+							"});\r",
+							"// CDP04 : Validar tiempo de respuesta del API. Resultado esperado: Menor que 200 milisegundos\r",
+							"pm.test(\"CDP04: Response time 200ms\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"// CDP05 : Validar JSON Schema. Resultado esperado: Contiene las propiedades del album con sus respectivos tipos de datos\r",
+							"// Declaramos una variable con el esquema\r",
+							"let schema = {\r",
+							"    \"type\": \"array\",\r",
+							"    \"items\": {\r",
+							"        \"type\": \"object\",\r",
+							"        \"properties\": {\r",
+							"            \"userId\": {\"type\": \"number\"},\r",
+							"            \"id\": {\"type\": \"number\"},\r",
+							"            \"title\": {\"type\": \"string\"}\r",
+							"        },\r",
+							"        \"required\": [\"userId\",\"id\",\"title\"],\r",
+							"        \"additionalProperties\": false\r",
+							"    }\r",
+							"}\r",
+							"//Validamos JSON Schema\r",
+							"pm.test(\"CDP05: Validar JSON Schema\", () => {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"});\r",
+							"// CDP06 : Validar cantidad de resultados. Resultado esperado: 100 albums\r",
+							"pm.test(\"CDP06: Validar cantidad de albums\", () => {\r",
+							"    let response = pm.response.json();\r",
+							"    pm.expect(Object.keys(response).length).to.eql(100);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/albums",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"albums"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://jsonplaceholder.typicode.com"
+		}
+	]
+}

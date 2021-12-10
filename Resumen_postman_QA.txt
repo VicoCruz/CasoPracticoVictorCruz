@@ -1,0 +1,65 @@
+
+Primero se creo una colección en postman para las automatizaciones de pruebas realizadas.
+Ejercicio 1, se uso un endpoint de prueba para simular la casuística que pide el ejercicio. 
+El detalle de lo realizado es el siguiente:
+1- Se creo el request de tipo GET
+2- Se creo el envío de la fecha por parámetro con el formato especificado.
+3- Se agregó los headers Country y City en la petición GET.
+4- Se agregaron los casos de prueba automatizados. Se identificarón 9 casos de prueba.
+
+Los casos de prueba identificados y automatizados del primer ejercicio son:
+- CDP01 : Validar que se ejecute correctamente. Resultado esperado: Ejecución correcta
+- CDP02 : Probar el estado del API. Resultado esperado: Status 200 OK
+- CDP03 : Validar que el response tenga body . Resultado esperado: Response tiene body
+- CDP04 : Validar el formato del response. Resultado esperado: Formato JSON
+- CDP05 : Validar tiempo de respuesta del API. Resultado esperado: Menor que 1000 milisegundos
+- CDP06 : Validar que cuenten con los Headers necesarios. Resultado esperado: Existen Header Country y City
+- CDP07 : Validar Header Country. Resultado esperado: Chile o Argentina
+- CDP08 : Validar Header City. Resultado esperado: Dependiendo el valor de Country, acepta los valores correspondientes
+- CDP09 : Validar Parámetro Fecha. Resultado esperado: Formato de la fecha DD-MM-AAAA
+
+Para el segundo ejercicio, se uso la API especificada y se leyó la documentación del API para consumirla.
+El detalle de lo realizado es el siguiente:
+1- Se configuro una variable de entorno con la url base del endpoint
+2- Se crearon 3 peticiones con request de tipo GET y POST. De los recursos: Posts, Comments y Albums.
+3- Para la petición de tipo POST se configuro los Headers especificados en la documentación del API y el body de tipo JSON.
+4- Se agregaron los casos de prueba automatizados dependiendo la casuística y el tipo de petición(GET y POST). Se identificarón 6 casos de prueba para cada petición.
+
+Los casos de prueba identificados y automatizados del segundo ejercicio son:
+Ejercicio 2 - Posts
+----------------------
+- CDP01 : Probar el estado del API. Resultado esperado: Status 201 o 202
+- CDP02 : Validar que el response tenga body . Resultado esperado: Response tiene body
+- CDP03 : Validar el formato del response. Resultado esperado: Formato JSON
+- CDP04 : Validar tiempo de respuesta del API. Resultado esperado: Menor que 1000 milisegundos
+- CDP05 : Validar Headers necesarios. Resultado esperado: Tiene Header Content type
+- CDP06 : Validar que se envio un body. Resultado esperado: Se envio un body
+
+Ejercicio 2 - Comments
+-----------------------
+- CDP01 : Probar el estado del API. Resultado esperado: Status 200 OK
+- CDP02 : Validar que el response tenga body . Resultado esperado: Response tiene body
+- CDP03 : Validar el formato del response. Resultado esperado: Formato JSON
+- CDP04 : Validar tiempo de respuesta del API. Resultado esperado: Menor que 200 milisegundos
+- CDP05 : Validar JSON Schema. Resultado esperado: Contiene las propiedades del comment con sus respectivos tipos de datos
+- CDP06 : Validar cantidad de resultados. Resultado esperado: 500 comments
+
+Ejercicio 2 - Albums
+-----------------------
+- CDP01 : Probar el estado del API. Resultado esperado: Status 200 OK
+- CDP02 : Validar que el response tenga body . Resultado esperado: Response tiene body
+- CDP03 : Validar el formato del response. Resultado esperado: Formato JSON
+- CDP04 : Validar tiempo de respuesta del API. Resultado esperado: Menor que 200 milisegundos
+- CDP05 : Validar JSON Schema. Resultado esperado: Contiene las propiedades del album con sus respectivos tipos de datos
+- CDP06 : Validar cantidad de resultados. Resultado esperado: 100 albums
+
+Para la descripcion de los ejecrcicios resueltos se consideró lo siguiente.
+Ejercicio 3
+Inicialmente se tuvieron que crear los métodos, headers y casos de prueba para tener un panorama de lo que se probará.
+Luego de tener nuestra parte inicial constituida, procedí a crear las peticiones POST, COMMENTS y ALBUM direccionado al ENDPOIND compartido.
+Una vez obtenida esta informacion, procedí con utilizar los recursos creados para asi poder aplicar lo aprendido, con esto puedo realizar pruebas en mi ambinte local, en el ambiente de desarrollo y tambien puedo saber si lo que estoy validando funcione en el ambiente QA y en produccion.
+Con esto puedo indicar si:
+- Los ambientes funcionan correctamente.
+- Los servicios responden correctamente.
+- Los casos de prueba creados estan alineados a mi requerimiento.
+- El resultado esperado cumple con el requerimiento.
